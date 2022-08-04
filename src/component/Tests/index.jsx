@@ -5,33 +5,46 @@ import { useSubscribe } from "../../config/meteor/useSubscribe";
 import { createUEID } from "../../utils/createUEID";
 import Spinner from "../common/Spinner";
 
-const Tasks = () => {
+const Tests = () => {
     const [inputValue, setValue] = useState("")
-    const ready = useSubscribe('tasks');
-    const tasks = useCollection('tasks');
+    const ready = useSubscribe('tests');
+    const tests = useCollection('tests');
     const call = useMethod();
 
     const submitFunction = async () => {
-        await call('insertTask', { text: inputValue, id: createUEID() });
+        await call('insertTest', { essai: inputValue, id: createUEID() });
     };
 
     const deleteTask = ({ id }) => {
-        call("removeTask", { id })
+        call("removeTest", { id })
     }
 
     if (!ready) return <Spinner />
 
-    if (!tasks || tasks.length <= 0) return null;
+    if (!tests || tests.length <= 0) return (
+        <div>
+            <input
+                value={inputValue}
+                onChange={e => setValue(e.target.value)}
+            />
+            <button
+                disabled={!inputValue}
+                onClick={submitFunction}
+            >
+                ADD ESSAI
+            </button>
+        </div>
+    );
 
     return (
         <div>
             {
-                tasks.map((task, index) => {
+                tests.map((test, index) => {
                     return (
                         <div key={index}>
-                            {task.text}
-                            <button onClick={() => deleteTask({ id: task.id })}>
-                                DELETE TASK
+                            {test.essai}
+                            <button onClick={() => deleteTask({ id: test.id })}>
+                                DELETE ESSAI
                             </button>
                         </div>
                     )
@@ -46,11 +59,11 @@ const Tasks = () => {
                     disabled={!inputValue}
                     onClick={submitFunction}
                 >
-                    ADD TASK
+                    ADD ESSAI
                 </button>
             </div>
         </div>
     )
 };
 
-export default Tasks;
+export default Tests;

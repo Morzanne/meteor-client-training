@@ -1,13 +1,13 @@
 import './App.css';
 import { MeteorProvider } from './config/meteor/MeteorServerProvider';
-import Tasks from './component/Tasks';
+import Tests from './component/Tests';
 
 function App() {
 
   return (
     <div className="App">
       <MeteorProvider>
-        <Tasks />
+        <Tests />
       </MeteorProvider>
     </div>
   );
